@@ -1,0 +1,24 @@
+module.exports = {
+  apps: [
+    {
+      name: 'discord-music-bot',
+      script: 'dist/index.js',
+      interpreter: 'node',
+
+      // Restart automatically if the process crashes
+      autorestart: true,
+      watch: false,
+
+      // Memory limit before automatic restart (adjust as needed)
+      max_memory_restart: '512M',
+
+      // Environment variables (copy to ecosystem.config.cjs and fill in your values)
+      env: {
+        NODE_ENV: 'production',
+        DISCORD_TOKEN: 'your_bot_token_here',
+        CLIENT_ID: 'your_application_id_here',
+        // DEV_GUILD_ID: 'your_dev_guild_id',
+      },
+    },
+  ],
+};

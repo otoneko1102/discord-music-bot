@@ -266,6 +266,36 @@ Bot の招待は **OAuth2** → **URL Generator** から：
 
 > **スラッシュコマンド**は初回起動時に自動登録されます。`DEV_GUILD_ID` を設定すると即時反映、未設定の場合はグローバル登録で最大1時間かかります。
 
+### PM2 で本番運用
+
+[PM2](https://pm2.keymetrics.io/) を使うとバックグラウンドで常駐させ、クラッシュ時に自動再起動できます。
+
+```bash
+# PM2 をグローバルインストール（初回のみ）
+npm install -g pm2
+
+# ecosystem config をコピーして編集
+cp ecosystem.config.cjs.example ecosystem.config.cjs
+# ecosystem.config.cjs に DISCORD_TOKEN と CLIENT_ID を記入
+
+# ビルドして起動
+npm run build
+pm2 start ecosystem.config.cjs
+
+# よく使う PM2 コマンド
+pm2 status                  # 稼働状況の確認
+pm2 logs discord-music-bot  # ログのリアルタイム表示
+pm2 restart discord-music-bot
+pm2 stop discord-music-bot
+pm2 delete discord-music-bot
+
+# OS 再起動時に自動起動
+pm2 startup
+pm2 save
+```
+
+> `ecosystem.config.cjs` にはボットトークンが含まれるため `.gitignore` で除外されています。絶対にコミットしないでください。
+
 ### 開発コマンド
 
 ```bash

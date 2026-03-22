@@ -9,6 +9,9 @@ dist/
 .env.local
 .env.*.local
 
+# PM2 ecosystem config (contains secrets)
+ecosystem.config.cjs
+
 # Bot configuration (contains personal settings)
 config.jsonc
 

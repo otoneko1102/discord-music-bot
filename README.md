@@ -266,6 +266,36 @@ To invite the bot, go to **OAuth2** → **URL Generator**:
 
 > **Slash commands** are registered automatically on first startup. With `DEV_GUILD_ID` set they appear instantly; without it, global registration can take up to 1 hour.
 
+### Running with PM2
+
+[PM2](https://pm2.keymetrics.io/) keeps the bot alive in the background and restarts it automatically on crashes.
+
+```bash
+# Install PM2 globally (once)
+npm install -g pm2
+
+# Copy and edit the ecosystem config
+cp ecosystem.config.cjs.example ecosystem.config.cjs
+# Fill in DISCORD_TOKEN and CLIENT_ID inside ecosystem.config.cjs
+
+# Build and start
+npm run build
+pm2 start ecosystem.config.cjs
+
+# Useful PM2 commands
+pm2 status                  # Show running processes
+pm2 logs discord-music-bot  # Stream logs
+pm2 restart discord-music-bot
+pm2 stop discord-music-bot
+pm2 delete discord-music-bot
+
+# Auto-start on system reboot
+pm2 startup
+pm2 save
+```
+
+> `ecosystem.config.cjs` contains your bot token and is excluded from git. Never commit it.
+
 ### Dev scripts
 
 ```bash
