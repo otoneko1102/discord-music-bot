@@ -35,6 +35,101 @@ A feature-rich Discord music bot built with **discord.js v14**, **ytdlp-nodejs**
 
 ---
 
+## 🎮 Commands
+
+Default prefix: **`.`** — configurable per server with `.prefix <new>`
+
+You can also use **slash commands** (`/play`) or **mention** the bot (`@Bot play`).
+
+---
+
+### 🎵 Playback
+
+| Command | Aliases | Description | Usage |
+|---|---|---|---|
+| `play` | `p` | Play a song / playlist from YouTube, Spotify URL, or keyword search | `.play <query or URL>` |
+| `pause` | `pa` | Pause playback | `.pause` |
+| `resume` | `r`, `continue` | Resume playback | `.resume` |
+| `stop` | `st`, `stp` | Stop and clear the queue | `.stop` |
+| `skip` | `s`, `next`, `sk` | Skip the current song | `.skip [amount]` |
+| `previous` | `prev`, `back`, `pr` | Play the previous song | `.previous` |
+| `seek` | `se` | Seek to a position | `.seek <1:30 \| 90>` |
+| `volume` | `vol`, `v` | View or set volume (0–100) | `.volume [0-100]` |
+| `join` | `j`, `summon`, `connect` | Join your voice channel | `.join` |
+| `disconnect` | `dc`, `leave`, `bye` | Disconnect from voice | `.disconnect` |
+| `replay` | `rp`, `restart` | Replay the current song from the start | `.replay` |
+
+**Examples:**
+```
+.play lofi hip hop                                              ← YouTube search
+.play https://youtu.be/dQw4w9WgXcQ                             ← YouTube URL
+.play https://www.youtube.com/playlist?list=PLxxxxx            ← YouTube playlist
+.play https://music.youtube.com/watch?v=...                    ← YouTube Music
+.play https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT   ← Spotify track
+.play https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M ← Spotify playlist
+.play https://soundcloud.com/artist/track                      ← SoundCloud track
+.play https://soundcloud.com/artist/sets/playlist              ← SoundCloud set
+```
+
+---
+
+### 🔄 Track State
+
+| Command | Aliases | Description |
+|---|---|---|
+| `loop` | `repeat`, `l` | Toggle loop for the current track |
+| `loopqueue` | `lq`, `repeatqueue`, `queueloop` | Toggle loop for the entire queue |
+| `shuffle` | `sh`, `mix` | Shuffle (or unshuffle) the queue |
+| `autoplay` | `ap` | Toggle autoplay when queue ends |
+
+---
+
+### 📋 Queue
+
+| Command | Aliases | Description | Usage |
+|---|---|---|---|
+| `queue` | `q`, `list` | Display the queue | `.queue [page]` |
+| `nowplaying` | `np`, `current`, `song`, `playing` | Show the current track | `.nowplaying` |
+| `remove` | `rm`, `delete`, `del` | Remove a track | `.remove <position>` |
+| `move` | `mv` | Move a track to another position | `.move <from> <to>` |
+| `clear` | `clr`, `empty` | Clear the queue | `.clear` |
+| `skipto` | `jt`, `jump`, `goto`, `jumpto` | Jump to a position in the queue | `.skipto <position>` |
+
+---
+
+### ✨ Special
+
+| Command | Aliases | Description |
+|---|---|---|
+| `lofi` | `lf`, `chill` | Toggle lofi hip hop radio |
+| `247` | `stay`, `stay247` | Toggle 24/7 mode |
+
+---
+
+### ℹ️ Information
+
+| Command | Aliases | Description | Usage |
+|---|---|---|---|
+| `help` | `h`, `commands`, `cmds` | Show commands or details for a specific command | `.help [command]` |
+| `ping` | `pong`, `latency` | Show bot latency | `.ping` |
+
+---
+
+### ⚙️ Settings
+
+| Command | Aliases | Description | Usage | Permission |
+|---|---|---|---|---|
+| `prefix` | `pfx`, `setprefix` | View or change the prefix | `.prefix [new]` | Administrator |
+| `language` | `lang`, `setlang` | View or change language (`en` / `ja`) | `.language [en\|ja]` | Administrator |
+| `musicchannel` | `mc`, `mch`, `setmusicchannel` | Set a channel where no prefix is needed | `.musicchannel [set \| #channel \| clear]` | Administrator |
+
+**Music channel behaviour:**
+- Send any command name without a prefix: `skip`, `queue`, `pause` …
+- Send a YouTube / Spotify / SoundCloud URL alone to play it immediately
+- Normal prefix commands still work inside the channel
+
+---
+
 ## 📦 Requirements
 
 - **Node.js** ≥ 18.x
@@ -136,105 +231,48 @@ npm run build && npm start
 
 ---
 
-## 🎮 Commands
+## 🔧 Development / Self-hosting
 
-Default prefix: **`.`** — configurable per server with `.prefix <new>`
-
-You can also use **slash commands** (`/play`) or **mention** the bot (`@Bot play`).
-
----
-
-### 🎵 Playback
-
-| Command | Aliases | Description | Usage |
-|---|---|---|---|
-| `play` | `p` | Play a song / playlist from YouTube, Spotify URL, or keyword search | `.play <query or URL>` |
-| `pause` | `pa` | Pause playback | `.pause` |
-| `resume` | `r`, `continue` | Resume playback | `.resume` |
-| `stop` | `st`, `stp` | Stop and clear the queue | `.stop` |
-| `skip` | `s`, `next`, `sk` | Skip the current song | `.skip [amount]` |
-| `previous` | `prev`, `back`, `pr` | Play the previous song | `.previous` |
-| `seek` | `se` | Seek to a position | `.seek <1:30 \| 90>` |
-| `volume` | `vol`, `v` | View or set volume (0–100) | `.volume [0-100]` |
-| `join` | `j`, `summon`, `connect` | Join your voice channel | `.join` |
-| `disconnect` | `dc`, `leave`, `bye` | Disconnect from voice | `.disconnect` |
-| `replay` | `rp`, `restart` | Replay the current song from the start | `.replay` |
-
-**Examples:**
-```
-.play lofi hip hop                                              ← YouTube search
-.play https://youtu.be/dQw4w9WgXcQ                             ← YouTube URL
-.play https://www.youtube.com/playlist?list=PLxxxxx            ← YouTube playlist
-.play https://music.youtube.com/watch?v=...                    ← YouTube Music
-.play https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT   ← Spotify track
-.play https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M ← Spotify playlist
-.play https://soundcloud.com/artist/track                      ← SoundCloud track
-.play https://soundcloud.com/artist/sets/playlist              ← SoundCloud set
-```
-
----
-
-### 🔄 Track State
-
-| Command | Aliases | Description |
-|---|---|---|
-| `loop` | `repeat`, `l` | Toggle loop for the current track |
-| `loopqueue` | `lq`, `repeatqueue`, `queueloop` | Toggle loop for the entire queue |
-| `shuffle` | `sh`, `mix` | Shuffle (or unshuffle) the queue |
-| `autoplay` | `ap` | Toggle autoplay when queue ends |
-
----
-
-### 📋 Queue
-
-| Command | Aliases | Description | Usage |
-|---|---|---|---|
-| `queue` | `q`, `list` | Display the queue | `.queue [page]` |
-| `nowplaying` | `np`, `current`, `song`, `playing` | Show the current track | `.nowplaying` |
-| `remove` | `rm`, `delete`, `del` | Remove a track | `.remove <position>` |
-| `move` | `mv` | Move a track to another position | `.move <from> <to>` |
-| `clear` | `clr`, `empty` | Clear the queue | `.clear` |
-| `skipto` | `jt`, `jump`, `goto`, `jumpto` | Jump to a position in the queue | `.skipto <position>` |
-
----
-
-### ✨ Special
-
-| Command | Aliases | Description |
-|---|---|---|
-| `lofi` | `lf`, `chill` | Toggle lofi hip hop radio |
-| `247` | `stay`, `stay247` | Toggle 24/7 mode |
-
----
-
-### ℹ️ Information
-
-| Command | Aliases | Description | Usage |
-|---|---|---|---|
-| `help` | `h`, `commands`, `cmds` | Show commands or details for a specific command | `.help [command]` |
-| `ping` | `pong`, `latency` | Show bot latency | `.ping` |
-
----
-
-### ⚙️ Settings
-
-| Command | Aliases | Description | Usage | Permission |
-|---|---|---|---|---|
-| `prefix` | `pfx`, `setprefix` | View or change the prefix | `.prefix [new]` | Administrator |
-| `language` | `lang`, `setlang` | View or change language (`en` / `ja`) | `.language [en\|ja]` | Administrator |
-| `musicchannel` | `mc`, `mch`, `setmusicchannel` | Set a channel where no prefix is needed | `.musicchannel [set \| #channel \| clear]` | Administrator |
-
-**Music channel behaviour:**
-- Send any command name without a prefix: `skip`, `queue`, `pause` …
-- Send a YouTube / Spotify / SoundCloud URL alone to play it immediately
-- Normal prefix commands still work inside the channel
-
----
-
-## 🔧 Development
+### Initial setup
 
 ```bash
-npm run typecheck     # TypeScript type check
+# 1. Clone
+git clone https://github.com/your-username/discord-music-bot.git
+cd discord-music-bot
+
+# 2. Install dependencies (FFmpeg & yt-dlp are managed automatically)
+npm install
+
+# 3. Copy config files
+#    macOS / Linux
+cp .env.example .env
+cp config.jsonc.example config.jsonc
+
+#    Windows (Command Prompt)
+copy .env.example .env
+copy config.jsonc.example config.jsonc
+```
+
+### Create a Discord bot
+
+1. Open the [Discord Developer Portal](https://discord.com/developers/applications) and click **New Application**.
+2. Go to the **Bot** tab → **Reset Token** and copy the token → paste it as `DISCORD_TOKEN` in `.env`.
+3. On the same page, enable ✅ **Message Content Intent** under *Privileged Gateway Intents*.
+4. Go to **General Information** → copy the **Application ID** → paste it as `CLIENT_ID` in `.env`.
+
+To invite the bot, go to **OAuth2** → **URL Generator**:
+- Scopes: `bot`, `applications.commands`
+- Permissions: View Channels, Send Messages, Embed Links, Read Message History, Connect, Speak, Use Voice Activity
+
+> **Slash commands** are registered automatically on first startup. With `DEV_GUILD_ID` set they appear instantly; without it, global registration can take up to 1 hour.
+
+### Dev scripts
+
+```bash
+npm run dev           # Run with auto-reload (tsx watch)
+npm run build         # Compile TypeScript → dist/
+npm start             # Run compiled output
+npm run typecheck     # TypeScript type check (no emit)
 npm run lint          # ESLint (zero warnings policy)
 npm run lint:fix      # Auto-fix lint issues
 npm run format        # Prettier format
