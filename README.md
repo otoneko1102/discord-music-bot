@@ -226,7 +226,7 @@ You can also use **slash commands** (`/play`) or **mention** the bot (`@Bot play
 
 **Music channel behaviour:**
 - Send any command name without a prefix: `skip`, `queue`, `pause` …
-- Send a YouTube / Spotify URL alone to play it immediately
+- Send a YouTube / Spotify / SoundCloud URL alone to play it immediately
 - Normal prefix commands still work inside the channel
 
 ---

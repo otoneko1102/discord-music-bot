@@ -226,7 +226,7 @@ npm run build && npm start
 
 **ミュージックチャンネルの動作:**
 - プレフィックス不要でコマンドを実行: `skip`、`queue`、`pause` など
-- YouTube / Spotify の URL を単体で送信すると即座に再生
+- YouTube / Spotify / SoundCloud の URL を単体で送信すると即座に再生
 - 通常のプレフィックスコマンドも引き続き使用可能
 
 ---
