@@ -1,0 +1,181 @@
+{
+  "common": {
+    "notInVoice": "ボイスチャンネルに参加してください。",
+    "notSameVoice": "私と同じボイスチャンネルに参加してください。",
+    "notPlaying": "現在再生中の曲がありません。",
+    "emptyQueue": "キューが空です。",
+    "noPermission": "ボイスチャンネルに参加する権限がありません。",
+    "error": "エラーが発生しました: {0}",
+    "invalidArgs": "引数が無効です。使い方: `{0}`",
+    "invalidNumber": "有効な数字を入力してください。",
+    "outOfRange": "{0}から{1}の間の数字を入力してください。",
+    "success": "成功！",
+    "disabled": "この機能は無効です。",
+    "loading": "読み込み中..."
+  },
+  "play": {
+    "noQuery": "曲名またはURLを入力してください。",
+    "searching": "**{0}** を検索中...",
+    "addedToQueue": "キューに追加しました",
+    "addedPlaylist": "**{1}** から **{0}** 曲をキューに追加しました。",
+    "nowPlaying": "再生中",
+    "queueFull": "キューが満杯です（最大 {0} 曲）。",
+    "playlistTooLarge": "プレイリストが大きすぎます。最初の {0} 曲を追加します。",
+    "noResults": "**{0}** の検索結果が見つかりませんでした。",
+    "selectSong": "再生する曲を選択してください:",
+    "nowPlayingNext": "次に再生"
+  },
+  "pause": {
+    "paused": "一時停止しました ⏸",
+    "alreadyPaused": "すでに一時停止中です。"
+  },
+  "resume": {
+    "resumed": "再開しました ▶",
+    "notPaused": "一時停止中ではありません。"
+  },
+  "stop": {
+    "stopped": "再生を停止してキューをクリアしました。"
+  },
+  "skip": {
+    "skipped": "スキップしました ⏭",
+    "skippedTo": "**{0}** にスキップしました。",
+    "noNext": "キューに次の曲がありません。"
+  },
+  "previous": {
+    "previous": "前の曲を再生しています ⏮",
+    "noPrevious": "前の曲がありません。"
+  },
+  "seek": {
+    "seeked": "**{0}** にシークしました。",
+    "invalidTime": "時間の形式が無効です。`1:30` または `90`（秒）を使用してください。",
+    "outOfRange": "シーク位置が曲の長さを超えています。",
+    "notSeekable": "ライブストリームはシークできません。"
+  },
+  "volume": {
+    "set": "音量を **{0}%** に設定しました 🔊",
+    "current": "現在の音量: **{0}%**",
+    "outOfRange": "音量は0から100の間で指定してください。"
+  },
+  "join": {
+    "joined": "**{0}** に参加しました。",
+    "alreadyJoined": "すでに **{0}** にいます。"
+  },
+  "disconnect": {
+    "disconnected": "**{0}** から切断しました。",
+    "notConnected": "ボイスチャンネルに参加していません。"
+  },
+  "replay": {
+    "replayed": "**{0}** を最初から再生します。"
+  },
+  "loop": {
+    "enabled": "現在の曲のループを有効にしました 🔂",
+    "disabled": "ループを無効にしました。",
+    "current": "ループは現在 **{0}** です。"
+  },
+  "loopqueue": {
+    "enabled": "キューのループを有効にしました 🔁",
+    "disabled": "キューのループを無効にしました。"
+  },
+  "shuffle": {
+    "shuffled": "キューをシャッフルしました 🔀",
+    "unshuffled": "シャッフルを解除しました。"
+  },
+  "autoplay": {
+    "enabled": "オートプレイを有効にしました ♾",
+    "disabled": "オートプレイを無効にしました。"
+  },
+  "queue": {
+    "title": "キュー",
+    "nowPlaying": "再生中",
+    "upNext": "次の曲",
+    "empty": "キューが空です。",
+    "page": "{0}/{1} ページ",
+    "trackCount": "キューに {0} 曲",
+    "totalDuration": "合計時間: **{0}**",
+    "loopMode": "ループ: **{0}**",
+    "loopTrack": "曲",
+    "loopQueue": "キュー",
+    "loopOff": "オフ"
+  },
+  "nowplaying": {
+    "title": "再生中",
+    "duration": "長さ",
+    "requestedBy": "リクエスト者",
+    "position": "再生位置",
+    "volume": "音量",
+    "loop": "ループ",
+    "autoplay": "オートプレイ",
+    "source": "ソース"
+  },
+  "remove": {
+    "removed": "**{0}** をキューから削除しました。",
+    "invalidPosition": "無効な位置です。"
+  },
+  "move": {
+    "moved": "**{0}** を位置 **{1}** に移動しました。",
+    "samePosition": "その曲はすでにその位置にあります。"
+  },
+  "clear": {
+    "cleared": "キューをクリアしました。"
+  },
+  "skipto": {
+    "skippedTo": "**{0}** にスキップしました。"
+  },
+  "lofi": {
+    "enabled": "Lofiモードを有効にしました ☕。Lofi Hip Hopを再生します。",
+    "disabled": "Lofiモードを無効にしました。",
+    "alreadyEnabled": "Lofiモードはすでに有効です。",
+    "alreadyDisabled": "Lofiモードはすでに無効です。"
+  },
+  "stay247": {
+    "enabled": "24/7モードを有効にしました。ボイスチャンネルに常駐します。",
+    "disabled": "24/7モードを無効にしました。",
+    "alreadyEnabled": "24/7モードはすでに有効です。",
+    "alreadyDisabled": "24/7モードはすでに無効です。"
+  },
+  "help": {
+    "title": "音楽Botコマンド",
+    "description": "コマンドの詳細は `{0}help <コマンド>` を使用してください。\nスラッシュコマンドも使用できます。",
+    "playback": "再生",
+    "trackState": "曲の状態",
+    "queue": "キュー",
+    "special": "特殊機能",
+    "information": "情報",
+    "settings": "設定",
+    "footer": "プレフィックス: {0} | 言語: {1}"
+  },
+  "ping": {
+    "title": "ポン！ 🏓",
+    "latency": "レイテンシー",
+    "apiLatency": "APIレイテンシー"
+  },
+  "prefix": {
+    "set": "プレフィックスを `{0}` に設定しました。",
+    "current": "現在のプレフィックス: `{0}`",
+    "tooLong": "プレフィックスは5文字以内にしてください。",
+    "requiresAdmin": "プレフィックスを変更するには管理者権限が必要です。"
+  },
+  "musicchannel": {
+    "notSet": "ミュージックチャンネルは設定されていません。`musicchannel set` でこのチャンネルを設定できます。",
+    "current": "ミュージックチャンネル: {0}",
+    "set": "ミュージックチャンネルを {0} に設定しました。そのチャンネルではプレフィックス不要でコマンドやURLが使えます。",
+    "cleared": "ミュージックチャンネルの設定をクリアしました。",
+    "requiresAdmin": "ミュージックチャンネルの変更には管理者権限が必要です。"
+  },
+  "language": {
+    "set": "言語を **{0}** に設定しました。",
+    "current": "現在の言語: **{0}**",
+    "invalid": "無効な言語です。使用可能: `en`（英語）、`ja`（日本語）。",
+    "requiresAdmin": "言語を変更するには管理者権限が必要です。"
+  },
+  "duration": {
+    "live": "ライブ",
+    "unknown": "不明"
+  },
+  "vc": {
+    "joined": "**{0}** に接続しました",
+    "disconnected": "**{0}** から切断しました",
+    "moved": "**{0}** に移動しました",
+    "queueEmpty": "キューに曲がなくなりました。"
+  }
+}

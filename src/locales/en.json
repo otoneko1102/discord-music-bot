@@ -1,0 +1,181 @@
+{
+  "common": {
+    "notInVoice": "You need to be in a voice channel.",
+    "notSameVoice": "You need to be in the same voice channel as me.",
+    "notPlaying": "Nothing is currently playing.",
+    "emptyQueue": "The queue is empty.",
+    "noPermission": "I don't have permission to join your voice channel.",
+    "error": "An error occurred: {0}",
+    "invalidArgs": "Invalid arguments. Usage: `{0}`",
+    "invalidNumber": "Please provide a valid number.",
+    "outOfRange": "Number must be between {0} and {1}.",
+    "success": "Success!",
+    "disabled": "This feature is disabled.",
+    "loading": "Loading..."
+  },
+  "play": {
+    "noQuery": "Please provide a song name or URL.",
+    "searching": "Searching for **{0}**...",
+    "addedToQueue": "Added to queue",
+    "addedPlaylist": "Added **{0}** tracks from **{1}** to the queue.",
+    "nowPlaying": "Now playing",
+    "queueFull": "The queue is full (max {0} tracks).",
+    "playlistTooLarge": "Playlist is too large. Adding the first {0} tracks.",
+    "noResults": "No results found for **{0}**.",
+    "selectSong": "Select a song to play:",
+    "nowPlayingNext": "Now Playing Next"
+  },
+  "pause": {
+    "paused": "Paused ⏸",
+    "alreadyPaused": "The player is already paused."
+  },
+  "resume": {
+    "resumed": "Resumed ▶",
+    "notPaused": "The player is not paused."
+  },
+  "stop": {
+    "stopped": "Stopped the player and cleared the queue."
+  },
+  "skip": {
+    "skipped": "Skipped ⏭",
+    "skippedTo": "Skipped to **{0}**.",
+    "noNext": "There is no next track in the queue."
+  },
+  "previous": {
+    "previous": "Playing previous track ⏮",
+    "noPrevious": "There is no previous track."
+  },
+  "seek": {
+    "seeked": "Seeked to **{0}**.",
+    "invalidTime": "Invalid time format. Use `1:30` or `90` (seconds).",
+    "outOfRange": "Seek position exceeds track duration.",
+    "notSeekable": "Cannot seek in a live stream."
+  },
+  "volume": {
+    "set": "Volume set to **{0}%** 🔊",
+    "current": "Current volume: **{0}%**",
+    "outOfRange": "Volume must be between 0 and 100."
+  },
+  "join": {
+    "joined": "Joined **{0}**.",
+    "alreadyJoined": "Already in **{0}**."
+  },
+  "disconnect": {
+    "disconnected": "Disconnected from **{0}**.",
+    "notConnected": "I'm not in a voice channel."
+  },
+  "replay": {
+    "replayed": "Replaying **{0}**."
+  },
+  "loop": {
+    "enabled": "Loop enabled for current track 🔂",
+    "disabled": "Loop disabled.",
+    "current": "Loop is currently **{0}**."
+  },
+  "loopqueue": {
+    "enabled": "Queue loop enabled 🔁",
+    "disabled": "Queue loop disabled."
+  },
+  "shuffle": {
+    "shuffled": "Queue shuffled 🔀",
+    "unshuffled": "Queue unshuffled."
+  },
+  "autoplay": {
+    "enabled": "Autoplay enabled ♾",
+    "disabled": "Autoplay disabled."
+  },
+  "queue": {
+    "title": "Queue",
+    "nowPlaying": "Now Playing",
+    "upNext": "Up Next",
+    "empty": "The queue is empty.",
+    "page": "Page {0}/{1}",
+    "trackCount": "{0} track(s) in queue",
+    "totalDuration": "Total duration: **{0}**",
+    "loopMode": "Loop: **{0}**",
+    "loopTrack": "Track",
+    "loopQueue": "Queue",
+    "loopOff": "Off"
+  },
+  "nowplaying": {
+    "title": "Now Playing",
+    "duration": "Duration",
+    "requestedBy": "Requested by",
+    "position": "Position",
+    "volume": "Volume",
+    "loop": "Loop",
+    "autoplay": "Autoplay",
+    "source": "Source"
+  },
+  "remove": {
+    "removed": "Removed **{0}** from the queue.",
+    "invalidPosition": "Invalid position."
+  },
+  "move": {
+    "moved": "Moved **{0}** to position **{1}**.",
+    "samePosition": "The track is already at that position."
+  },
+  "clear": {
+    "cleared": "Cleared the queue."
+  },
+  "skipto": {
+    "skippedTo": "Skipped to **{0}**."
+  },
+  "lofi": {
+    "enabled": "Lofi mode enabled ☕. Playing lofi hip hop.",
+    "disabled": "Lofi mode disabled.",
+    "alreadyEnabled": "Lofi mode is already enabled.",
+    "alreadyDisabled": "Lofi mode is already disabled."
+  },
+  "stay247": {
+    "enabled": "24/7 mode enabled. I'll stay in the voice channel.",
+    "disabled": "24/7 mode disabled.",
+    "alreadyEnabled": "24/7 mode is already enabled.",
+    "alreadyDisabled": "24/7 mode is already disabled."
+  },
+  "help": {
+    "title": "Music Bot Commands",
+    "description": "Use `{0}help <command>` for more info on a command.\nSlash commands are also supported.",
+    "playback": "Playback",
+    "trackState": "Track State",
+    "queue": "Queue",
+    "special": "Special",
+    "information": "Information",
+    "settings": "Settings",
+    "footer": "Prefix: {0} | Language: {1}"
+  },
+  "ping": {
+    "title": "Pong! 🏓",
+    "latency": "Latency",
+    "apiLatency": "API Latency"
+  },
+  "prefix": {
+    "set": "Prefix set to `{0}`.",
+    "current": "Current prefix: `{0}`",
+    "tooLong": "Prefix cannot be longer than 5 characters.",
+    "requiresAdmin": "You need Administrator permission to change the prefix."
+  },
+  "language": {
+    "set": "Language set to **{0}**.",
+    "current": "Current language: **{0}**",
+    "invalid": "Invalid language. Available: `en` (English), `ja` (Japanese).",
+    "requiresAdmin": "You need Administrator permission to change the language."
+  },
+  "musicchannel": {
+    "notSet": "No music channel is set. Use `musicchannel set` to designate this channel.",
+    "current": "Music channel: {0}",
+    "set": "Music channel set to {0}. Commands and URLs sent there work without a prefix.",
+    "cleared": "Music channel cleared.",
+    "requiresAdmin": "You need Administrator permission to change the music channel."
+  },
+  "duration": {
+    "live": "LIVE",
+    "unknown": "Unknown"
+  },
+  "vc": {
+    "joined": "Connected to **{0}**",
+    "disconnected": "Disconnected from **{0}**",
+    "moved": "Moved to **{0}**",
+    "queueEmpty": "No more tracks in the queue."
+  }
+}

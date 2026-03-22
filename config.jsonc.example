@@ -1,0 +1,53 @@
+{
+  // config.jsonc — Discord Music Bot configuration
+  // Copy this file to config.jsonc and edit the values below.
+
+  // Default command prefix. Admins can change it per server with the prefix command.
+  "prefix": ".",
+
+  "servers": {
+    // Controls which Discord servers the bot responds to.
+    //   "all"       — respond to every server (default)
+    //   "whitelist" — only respond to servers whose IDs are in "list"
+    //   "blacklist" — respond to all servers except those whose IDs are in "list"
+    "mode": "all",
+
+    // Guild (server) IDs used when mode is "whitelist" or "blacklist".
+    // Right-click a server icon → Copy Server ID (Developer Mode must be on).
+    // Example: ["123456789012345678", "987654321098765432"]
+    "list": []
+  },
+
+  "lofi": {
+    // YouTube URL of the lofi radio stream played by the lofi command.
+    // Must be a live stream or a very long video. Change to any stream you like.
+    "url": "https://www.youtube.com/watch?v=jfKfPfyJRdk"
+  },
+
+  // Bot invite URL. When set, it is shown in the help embed footer. Leave empty to hide.
+  "inviteUrl": "",
+
+  // GitHub repository URL (e.g. "https://github.com/yourname/yourrepo").
+  // When set, a README link button appears in the help command.
+  "repoUrl": "https://github.com/yourname/yourrepo",
+
+  // Default language for servers that have not set a language yet.
+  // Options: "en" (English) | "ja" (Japanese)
+  // Admins can change it per server with the language command.
+  "defaultLanguage": "en",
+
+  // Default playback volume for servers that have not set a volume yet.
+  // Range: 0–100. Recommended: 70.
+  "defaultVolume": 70,
+
+  // Maximum number of tracks allowed in a queue at once.
+  "maxQueueSize": 500,
+
+  // Maximum number of tracks loaded from a single playlist or album URL.
+  // Larger playlists are truncated to this limit.
+  "maxPlaylistSize": 100,
+
+  // Number of search result buttons shown when using keyword search.
+  // Range: 1–5 (Discord limits action rows to 5 buttons).
+  "searchResultCount": 5
+}
