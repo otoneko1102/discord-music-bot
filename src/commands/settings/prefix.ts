@@ -1,7 +1,7 @@
 import type { SlashCommandBuilder } from 'discord.js';
-import { PermissionFlagsBits } from 'discord.js';
 import type { Command, CommandContext } from '../../types';
 import { successEmbed, infoEmbed, errorEmbed } from '../../utils/embeds';
+import { hasAdminAccess } from '../../utils/permissions';
 
 export function buildSlash(builder: SlashCommandBuilder): void {
   builder.addStringOption(o =>
@@ -21,9 +21,8 @@ async function execute(ctx: CommandContext): Promise<void> {
     return;
   }
 
-  // Require Administrator
-  if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
-    await ctx.reply({ embeds: [errorEmbed(t('prefix.requiresAdmin'))], flags: 64 });
+  if (!hasAdminAccess(member)) {
+    await ctx.reply({ embeds: [errorEmbed(t('common.requiresAdmin'))], flags: 64 });
     return;
   }
 

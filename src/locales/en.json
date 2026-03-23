@@ -5,6 +5,8 @@
     "notPlaying": "Nothing is currently playing.",
     "emptyQueue": "The queue is empty.",
     "noPermission": "I don't have permission to join your voice channel.",
+    "requiresAdmin": "This command requires Administrator or Manage Server permission (or a master role).",
+    "roleBlocked": "You don't have permission to use this bot.",
     "error": "An error occurred: {0}",
     "invalidArgs": "Invalid arguments. Usage: `{0}`",
     "invalidNumber": "Please provide a valid number.",
@@ -152,21 +154,33 @@
   "prefix": {
     "set": "Prefix set to `{0}`.",
     "current": "Current prefix: `{0}`",
-    "tooLong": "Prefix cannot be longer than 5 characters.",
-    "requiresAdmin": "You need Administrator permission to change the prefix."
+    "tooLong": "Prefix cannot be longer than 5 characters."
   },
   "language": {
     "set": "Language set to **{0}**.",
     "current": "Current language: **{0}**",
-    "invalid": "Invalid language. Available: `en` (English), `ja` (Japanese).",
-    "requiresAdmin": "You need Administrator permission to change the language."
+    "invalid": "Invalid language. Available: `en` (English), `ja` (Japanese)."
   },
   "musicchannel": {
     "notSet": "No music channel is set. Use `musicchannel set` to designate this channel.",
     "current": "Music channel: {0}",
     "set": "Music channel set to {0}. Commands and URLs sent there work without a prefix.",
-    "cleared": "Music channel cleared.",
-    "requiresAdmin": "You need Administrator permission to change the music channel."
+    "cleared": "Music channel cleared."
+  },
+  "roles": {
+    "title": "Role Access Control",
+    "filterMode": "Filter Mode",
+    "filterList": "Role Filter List",
+    "masterList": "Master Roles",
+    "noRoles": "*(none)*",
+    "modeSet": "Role filter mode set to `{0}`.",
+    "added": "Role **{0}** added to the filter list.",
+    "removed": "Role **{0}** removed from the filter list.",
+    "masterAdded": "Role **{0}** added as a master role.",
+    "masterRemoved": "Role **{0}** removed from master roles.",
+    "alreadyInList": "That role is already in the list.",
+    "notInList": "That role is not in the list.",
+    "invalidRole": "Please mention a valid role or provide a role ID."
   },
   "duration": {
     "live": "LIVE",

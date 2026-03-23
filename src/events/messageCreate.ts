@@ -3,6 +3,7 @@ import commandHandler from '../commands/CommandHandler';
 import guildManager from '../core/GuildManager';
 import { detectInputType } from '../utils/search';
 import { errorEmbed } from '../utils/embeds';
+import { hasAdminAccess, passesRoleFilter } from '../utils/permissions';
 
 export default async function onMessageCreate(message: Message): Promise<void> {
   // Ignore bots and DMs
@@ -52,6 +53,25 @@ export default async function onMessageCreate(message: Message): Promise<void> {
   if (!message.member) return;
 
   const ctx = commandHandler.buildMessageContext(message, args);
+  const { language } = guildManager.get(guildId);
+  const { createTranslator } = await import('../utils/i18n');
+  const t = createTranslator(language);
+
+  if (!passesRoleFilter(message.member!)) {
+    await message.reply({
+      embeds: [errorEmbed(t('common.roleBlocked'))],
+      allowedMentions: { repliedUser: false },
+    });
+    return;
+  }
+
+  if (command.requiresAdmin && !hasAdminAccess(message.member!)) {
+    await message.reply({
+      embeds: [errorEmbed(t('common.requiresAdmin'))],
+      allowedMentions: { repliedUser: false },
+    });
+    return;
+  }
 
   try {
     await command.execute(ctx);
@@ -78,9 +98,28 @@ async function handleMusicChannel(message: Message, content: string): Promise<vo
   const [first, ...rest] = content.split(/\s+/);
   if (!first) return;
 
+  const { language } = guildManager.get(message.guild!.id);
+  const { createTranslator } = await import('../utils/i18n');
+  const t = createTranslator(language);
+
+  if (!passesRoleFilter(message.member!)) {
+    await message.reply({
+      embeds: [errorEmbed(t('common.roleBlocked'))],
+      allowedMentions: { repliedUser: false },
+    });
+    return;
+  }
+
   // Try to match as a command
   const command = commandHandler.get(first.toLowerCase());
   if (command) {
+    if (command.requiresAdmin && !hasAdminAccess(message.member!)) {
+      await message.reply({
+        embeds: [errorEmbed(t('common.requiresAdmin'))],
+        allowedMentions: { repliedUser: false },
+      });
+      return;
+    }
     const ctx = commandHandler.buildMessageContext(message, rest);
     try {
       await command.execute(ctx);

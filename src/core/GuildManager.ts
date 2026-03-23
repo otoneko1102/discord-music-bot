@@ -15,6 +15,9 @@ function makeDefault(): GuildSettings {
     lofi: false,
     musicChannelId: null,
     voiceChannelId: null,
+    roleMode: 'all',
+    roleList: [],
+    masterRoles: [],
   };
 }
 

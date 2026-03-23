@@ -39,6 +39,8 @@ export interface Track {
 
 export type Language = 'en' | 'ja';
 
+export type RoleFilterMode = 'all' | 'whitelist' | 'blacklist';
+
 export interface GuildSettings {
   prefix: string;
   language: Language;
@@ -47,6 +49,9 @@ export interface GuildSettings {
   lofi: boolean;
   musicChannelId: string | null;
   voiceChannelId: string | null;
+  roleMode: RoleFilterMode;
+  roleList: string[];
+  masterRoles: string[];
 }
 
 // Command
@@ -117,6 +122,8 @@ export interface Command {
   usage?: string;
   /** Whether to register as slash command */
   slashCommand?: boolean;
+  /** If true, requires Administrator, Manage Guild, or a master role to use */
+  requiresAdmin?: boolean;
   execute: (ctx: CommandContext) => Promise<void>;
 }
 

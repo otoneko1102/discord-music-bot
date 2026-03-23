@@ -39,6 +39,7 @@ const command: Command = {
   description: 'Toggle lofi hip hop radio stream',
   descriptionJa: 'Lofi Hip Hopラジオを切り替えます',
   category: 'special',
+  requiresAdmin: true,
   execute,
 };
 

@@ -3,6 +3,7 @@ import commandHandler from '../commands/CommandHandler';
 import { errorEmbed } from '../utils/embeds';
 import { createTranslator } from '../utils/i18n';
 import guildManager from '../core/GuildManager';
+import { hasAdminAccess, passesRoleFilter } from '../utils/permissions';
 
 export default async function onInteractionCreate(interaction: Interaction): Promise<void> {
   if (!interaction.isChatInputCommand()) return;
@@ -23,6 +24,18 @@ export default async function onInteractionCreate(interaction: Interaction): Pro
 
   const lang = guildManager.getLanguage(guildId);
   const t = createTranslator(lang);
+
+  const member = interaction.member as import('discord.js').GuildMember;
+
+  if (!passesRoleFilter(member)) {
+    await interaction.reply({ embeds: [errorEmbed(t('common.roleBlocked'))], flags: 64 });
+    return;
+  }
+
+  if (command.requiresAdmin && !hasAdminAccess(member)) {
+    await interaction.reply({ embeds: [errorEmbed(t('common.requiresAdmin'))], flags: 64 });
+    return;
+  }
 
   const ctx = commandHandler.buildSlashContext(interaction);
 

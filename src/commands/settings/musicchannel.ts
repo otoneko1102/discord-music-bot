@@ -1,7 +1,8 @@
-import { ChannelType, PermissionFlagsBits } from 'discord.js';
+import { ChannelType } from 'discord.js';
 import type { SlashCommandBuilder } from 'discord.js';
 import type { Command, CommandContext } from '../../types';
 import { successEmbed, infoEmbed, errorEmbed } from '../../utils/embeds';
+import { hasAdminAccess } from '../../utils/permissions';
 
 export function buildSlash(builder: SlashCommandBuilder): void {
   builder
@@ -54,9 +55,8 @@ async function execute(ctx: CommandContext): Promise<void> {
     return;
   }
 
-  // Admin required for changes
-  if (!member.permissions.has(PermissionFlagsBits.Administrator)) {
-    await ctx.reply({ embeds: [errorEmbed(t('musicchannel.requiresAdmin'))], flags: 64 });
+  if (!hasAdminAccess(member)) {
+    await ctx.reply({ embeds: [errorEmbed(t('common.requiresAdmin'))], flags: 64 });
     return;
   }
 

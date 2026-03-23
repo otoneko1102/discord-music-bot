@@ -17,6 +17,7 @@ const command: Command = {
   description: 'Toggle 24/7 mode (bot stays in voice channel)',
   descriptionJa: '24/7モードを切り替えます（ボイスチャンネルに常駐）',
   category: 'special',
+  requiresAdmin: true,
   execute,
 };
 
