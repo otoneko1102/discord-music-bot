@@ -9,7 +9,13 @@ import {
   type AudioPlayer,
   type VoiceConnection,
 } from '@discordjs/voice';
-import type { TextChannel, NewsChannel, VoiceChannel, StageChannel } from 'discord.js';
+import {
+  MessageFlags,
+  type TextChannel,
+  type NewsChannel,
+  type VoiceChannel,
+  type StageChannel,
+} from 'discord.js';
 import ffmpegPath from 'ffmpeg-static';
 import { ytdlp, resolveQueryFirst } from '../utils/search';
 import {
@@ -331,7 +337,7 @@ export default class MusicPlayer {
         ? (this._guild.channels.cache.get(musicChannelId) as TextChannel | NewsChannel | null)
         : null) ?? this.textChannel;
     if (!channel) return;
-    await channel.send({ embeds: [embed] });
+    await channel.send({ embeds: [embed], flags: MessageFlags.SuppressNotifications });
   }
 
   private async _sendAutoAdvanceNotification(track: Track): Promise<void> {
@@ -345,7 +351,10 @@ export default class MusicPlayer {
 
     const lang = guildManager.getLanguage(this.guildId);
     const t = createTranslator(lang);
-    await channel.send({ embeds: [nowPlayingNextEmbed(track, t)] });
+    await channel.send({
+      embeds: [nowPlayingNextEmbed(track, t)],
+      flags: MessageFlags.SuppressNotifications,
+    });
   }
 
   private _stopStream(): void {
@@ -470,14 +479,18 @@ export default class MusicPlayer {
 
   async setLofi(enabled: boolean): Promise<void> {
     this._lofiMode = enabled;
-    this._stopping = true;
     if (enabled) {
       this.queue.clear();
       this._stopStream();
+      // Only suppress the Idle event if actually transitioning from non-idle state.
+      // If already idle, stop(true) won't fire the Idle event, so _stopping would stay
+      // true forever and break all subsequent track-end handling.
+      if (!this.isIdle) this._stopping = true;
       this.audioPlayer.stop(true);
       await this._playLofi();
     } else {
       this._stopStream();
+      if (!this.isIdle) this._stopping = true;
       this.audioPlayer.stop(true);
     }
   }

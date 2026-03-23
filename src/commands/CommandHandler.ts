@@ -59,10 +59,8 @@ export class CommandHandler {
         .readdirSync(dir)
         .filter(f => f.endsWith('.js') || (f.endsWith('.ts') && !f.endsWith('.d.ts')));
       for (const file of files) {
-        const mod = (await import(path.join(dir, file))) as {
-          default?: Command;
-          command?: Command;
-        };
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const mod = require(path.join(dir, file)) as { default?: Command; command?: Command };
         const cmd: Command | undefined = mod.default ?? mod.command;
         if (!cmd?.name) continue;
 
@@ -97,8 +95,8 @@ export class CommandHandler {
       // The command file can export a `buildSlash` function for custom options
       const resolvedPath = this._resolveCommandPath(cmd);
       if (resolvedPath) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const mod = (await import(resolvedPath)) as any;
+        // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any
+        const mod = require(resolvedPath) as any;
         if (typeof mod.buildSlash === 'function') {
           mod.buildSlash(builder);
         }

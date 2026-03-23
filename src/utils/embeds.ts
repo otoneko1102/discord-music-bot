@@ -134,7 +134,11 @@ export function queueEmbed(
       : track.duration
         ? formatDuration(track.duration)
         : '?';
-    return `\`${pos}.\` [${escapeMarkdown(track.title)}](${track.url}) \`[${dur}]\` — <@${track.requesterId}>`;
+    const isHttpUrl = track.url?.startsWith('http');
+    const titlePart = isHttpUrl
+      ? `[${escapeMarkdown(track.title)}](${track.url})`
+      : escapeMarkdown(track.title);
+    return `\`${pos}.\` ${titlePart} \`[${dur}]\` — <@${track.requesterId}>`;
   });
 
   const embed = new EmbedBuilder()
@@ -150,9 +154,13 @@ export function queueEmbed(
       : currentTrack.duration
         ? formatDuration(currentTrack.duration)
         : '?';
+    const isHttpUrl = currentTrack.url?.startsWith('http');
+    const currentTitlePart = isHttpUrl
+      ? `[${escapeMarkdown(currentTrack.title)}](${currentTrack.url})`
+      : escapeMarkdown(currentTrack.title);
     embed.addFields({
       name: `▶ ${t('queue.nowPlaying')}`,
-      value: `[${escapeMarkdown(currentTrack.title)}](${currentTrack.url}) \`[${dur}]\``,
+      value: `${currentTitlePart} \`[${dur}]\``,
     });
   }
 

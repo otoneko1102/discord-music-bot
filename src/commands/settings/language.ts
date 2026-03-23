@@ -1,7 +1,7 @@
 import type { SlashCommandBuilder } from 'discord.js';
 import type { Command, CommandContext } from '../../types';
 import { successEmbed, infoEmbed, errorEmbed } from '../../utils/embeds';
-import { isValidLanguage } from '../../utils/i18n';
+import { isValidLanguage, createTranslator } from '../../utils/i18n';
 import { hasAdminAccess } from '../../utils/permissions';
 
 export function buildSlash(builder: SlashCommandBuilder): void {
@@ -37,7 +37,6 @@ async function execute(ctx: CommandContext): Promise<void> {
   guildManager.set(guildId, { language: newLang });
 
   // Reply with the new language's confirmation
-  const { createTranslator } = await import('../../utils/i18n');
   const newT = createTranslator(newLang);
 
   await ctx.reply({ embeds: [successEmbed(newT('language.set', newLang))] });

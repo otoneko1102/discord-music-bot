@@ -4,6 +4,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ComponentType,
+  MessageFlags,
   type Message,
 } from 'discord.js';
 import type { SlashCommandBuilder } from 'discord.js';
@@ -185,15 +186,21 @@ async function execute(ctx: CommandContext): Promise<void> {
   const initialRow = buildRow(currentPage, currentLang);
 
   // Send the help message and get the Message object for the collector
+  const silentFlag = MessageFlags.SuppressNotifications;
   let replyMsg: Message | null = null;
   if (ctx.isSlash && ctx.interaction) {
-    await ctx.interaction.reply({ embeds: [initialEmbed], components: [initialRow] });
+    await ctx.interaction.reply({
+      embeds: [initialEmbed],
+      components: [initialRow],
+      flags: silentFlag,
+    });
     replyMsg = (await ctx.interaction.fetchReply()) as Message;
   } else if (ctx.message) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     replyMsg = await (ctx.message as any).reply({
       embeds: [initialEmbed],
       components: [initialRow],
+      flags: silentFlag,
     });
   }
 

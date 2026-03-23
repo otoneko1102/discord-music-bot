@@ -1,9 +1,10 @@
-import type { Message } from 'discord.js';
+import { MessageFlags, type Message } from 'discord.js';
 import commandHandler from '../commands/CommandHandler';
 import guildManager from '../core/GuildManager';
 import { detectInputType } from '../utils/search';
 import { errorEmbed } from '../utils/embeds';
 import { hasAdminAccess, passesRoleFilter } from '../utils/permissions';
+import { createTranslator } from '../utils/i18n';
 
 export default async function onMessageCreate(message: Message): Promise<void> {
   // Ignore bots and DMs
@@ -54,13 +55,12 @@ export default async function onMessageCreate(message: Message): Promise<void> {
 
   const ctx = commandHandler.buildMessageContext(message, args);
   const { language } = guildManager.get(guildId);
-  const { createTranslator } = await import('../utils/i18n');
   const t = createTranslator(language);
 
   if (!passesRoleFilter(message.member!)) {
     await message.reply({
       embeds: [errorEmbed(t('common.roleBlocked'))],
-      allowedMentions: { repliedUser: false },
+      flags: MessageFlags.SuppressNotifications,
     });
     return;
   }
@@ -68,7 +68,7 @@ export default async function onMessageCreate(message: Message): Promise<void> {
   if (command.requiresAdmin && !hasAdminAccess(message.member!)) {
     await message.reply({
       embeds: [errorEmbed(t('common.requiresAdmin'))],
-      allowedMentions: { repliedUser: false },
+      flags: MessageFlags.SuppressNotifications,
     });
     return;
   }
@@ -99,13 +99,12 @@ async function handleMusicChannel(message: Message, content: string): Promise<vo
   if (!first) return;
 
   const { language } = guildManager.get(message.guild!.id);
-  const { createTranslator } = await import('../utils/i18n');
   const t = createTranslator(language);
 
   if (!passesRoleFilter(message.member!)) {
     await message.reply({
       embeds: [errorEmbed(t('common.roleBlocked'))],
-      allowedMentions: { repliedUser: false },
+      flags: MessageFlags.SuppressNotifications,
     });
     return;
   }
@@ -116,7 +115,7 @@ async function handleMusicChannel(message: Message, content: string): Promise<vo
     if (command.requiresAdmin && !hasAdminAccess(message.member!)) {
       await message.reply({
         embeds: [errorEmbed(t('common.requiresAdmin'))],
-        allowedMentions: { repliedUser: false },
+        flags: MessageFlags.SuppressNotifications,
       });
       return;
     }

@@ -4,6 +4,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ComponentType,
+  MessageFlags,
   type Message,
 } from 'discord.js';
 import type { Command, CommandContext, Track } from '../../types';
@@ -109,7 +110,10 @@ async function handleSearchSelect(
   let replyMsg: Message | null = null;
 
   if (ctx.isSlash && ctx.interaction) {
-    await ctx.interaction.reply({ embeds: [loadingEmbed(t('play.searching', query))] });
+    await ctx.interaction.reply({
+      embeds: [loadingEmbed(t('play.searching', query))],
+      flags: MessageFlags.SuppressNotifications,
+    });
   } else if (ctx.message) {
     replyMsg = (await ctx.message.reply({
       embeds: [loadingEmbed(t('play.searching', query))],
