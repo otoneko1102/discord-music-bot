@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "CommonJS",
+    "ignoreDeprecations": "6.0",
     "moduleResolution": "node",
     "lib": ["ES2022"],
     "strict": true,
