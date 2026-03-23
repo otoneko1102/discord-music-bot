@@ -244,13 +244,8 @@ cd discord-music-bot
 npm install
 
 # 3. Copy config files
-#    macOS / Linux
 cp .env.example .env
 cp config.jsonc.example config.jsonc
-
-#    Windows (Command Prompt)
-copy .env.example .env
-copy config.jsonc.example config.jsonc
 ```
 
 ### Create a Discord bot

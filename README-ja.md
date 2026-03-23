@@ -244,13 +244,8 @@ cd discord-music-bot
 npm install
 
 # 3. 設定ファイルのコピー
-#    macOS / Linux
 cp .env.example .env
 cp config.jsonc.example config.jsonc
-
-#    Windows（コマンドプロンプト）
-copy .env.example .env
-copy config.jsonc.example config.jsonc
 ```
 
 ### Discord Bot の作成
