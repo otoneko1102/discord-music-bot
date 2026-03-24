@@ -4,6 +4,8 @@ import commandHandler, { players, removePlayer } from './commands/CommandHandler
 import onReady from './events/ready';
 import onMessageCreate from './events/messageCreate';
 import onInteractionCreate from './events/interactionCreate';
+import guildManager from './core/GuildManager';
+import { flushQueueState } from './utils/queuePersistence';
 
 // Validate required config
 if (!config.token) {
@@ -42,6 +44,24 @@ client.on('guildDelete', guild => {
     removePlayer(guild.id);
   }
 });
+
+// Prevent unhandled promise rejections and uncaught exceptions from crashing the process.
+// pm2 will restart the process on actual fatal errors (process.exit).
+process.on('unhandledRejection', (reason) => {
+  console.error('[Bot] Unhandled rejection:', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('[Bot] Uncaught exception:', err);
+});
+
+// Flush any debounced writes before the process exits.
+function onExit(): void {
+  flushQueueState();
+  guildManager.flushSync();
+}
+process.on('SIGTERM', () => { onExit(); process.exit(0); });
+process.on('SIGINT',  () => { onExit(); process.exit(0); });
+process.on('beforeExit', onExit);
 
 async function main(): Promise<void> {
   await commandHandler.load();

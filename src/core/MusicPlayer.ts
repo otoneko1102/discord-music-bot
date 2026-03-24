@@ -29,10 +29,13 @@ import { createTranslator } from '../utils/i18n';
 import Queue from './Queue';
 import config from '../config';
 import guildManager from './GuildManager';
+import { saveQueueState, clearQueueState } from '../utils/queuePersistence';
 import type { Track, LoopMode } from '../types';
 import type { Stream } from 'ytdlp-nodejs';
 
 const IDLE_TIMEOUT_MS = 5 * 60 * 1000;
+/** Skip a track after this many consecutive audio errors to prevent infinite error loops. */
+const MAX_CONSECUTIVE_ERRORS = 3;
 
 export default class MusicPlayer {
   readonly guildId: string;
@@ -50,6 +53,7 @@ export default class MusicPlayer {
   private _idleTimer: ReturnType<typeof setTimeout> | null = null;
   private _trackStartTime = 0;
   private _seekOffset = 0;
+  private _consecutiveErrors = 0;
 
   constructor(guildId: string, initialVolume?: number) {
     this.guildId = guildId;
@@ -175,6 +179,7 @@ export default class MusicPlayer {
     this._stopping = true;
     this.audioPlayer.stop(true);
     guildManager.set(this.guildId, { voiceChannelId: null });
+    clearQueueState(this.guildId);
 
     if (notify && channelName) {
       const lang = guildManager.getLanguage(this.guildId);
@@ -195,18 +200,29 @@ export default class MusicPlayer {
         this._stopping = false;
         return;
       }
-      this._onTrackEnd();
+      void this._onTrackEnd();
     });
 
     this.audioPlayer.on('error', err => {
       console.error(`[Player:${this.guildId}] Audio error:`, err.message);
-      this._onTrackEnd();
+      this._consecutiveErrors++;
+      // Set _stopping so the subsequent Idle event doesn't double-fire _onTrackEnd.
+      // The Idle event always fires synchronously after the error event in @discordjs/voice,
+      // before any microtasks, so _stopping will be seen by the Idle handler.
+      this._stopping = true;
+
+      if (this._consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+        console.warn(
+          `[Player:${this.guildId}] ${MAX_CONSECUTIVE_ERRORS} consecutive errors — skipping track.`,
+        );
+        this._consecutiveErrors = 0;
+      }
+      void this._onTrackEnd();
     });
   }
 
   private async _onTrackEnd(): Promise<void> {
     if (this._lofiMode) {
-      // Lofi mode: restart the lofi stream (live streams may end)
       await this._playLofi();
       return;
     }
@@ -225,7 +241,6 @@ export default class MusicPlayer {
       return;
     }
 
-    // Notification sent after URL resolution inside _playTrack for pending (Spotify) tracks
     if (!next.pendingQuery) {
       this._sendAutoAdvanceNotification(next).catch(() => {});
     }
@@ -236,7 +251,6 @@ export default class MusicPlayer {
     this._stopStream();
     this._clearIdleTimer();
 
-    // Lazy resolution: Spotify stub tracks have no URL yet — resolve to YouTube now
     if (track.pendingQuery) {
       try {
         const resolved = await resolveQueryFirst(track.pendingQuery, track.requesterId);
@@ -250,11 +264,9 @@ export default class MusicPlayer {
         delete track.pendingQuery;
       }
       if (!track.url) {
-        // Resolution failed — skip to next track
-        setTimeout(() => this._onTrackEnd(), 500);
+        setTimeout(() => void this._onTrackEnd(), 500);
         return;
       }
-      // Send notification now that the URL is resolved
       this._sendAutoAdvanceNotification(track).catch(() => {});
     }
 
@@ -281,10 +293,12 @@ export default class MusicPlayer {
 
       this._trackStartTime = Date.now();
       this._seekOffset = seekSeconds;
+      this._consecutiveErrors = 0;
       this.audioPlayer.play(resource);
+      this._persistQueueState();
     } catch (err) {
       console.error(`[Player:${this.guildId}] Error starting track "${track.title}":`, err);
-      setTimeout(() => this._onTrackEnd(), 1000);
+      setTimeout(() => void this._onTrackEnd(), 1000);
     }
   }
 
@@ -368,6 +382,29 @@ export default class MusicPlayer {
     }
   }
 
+  /** Persist current queue state to disk for crash recovery. */
+  private _persistQueueState(): void {
+    const voiceChannelId = this.voiceConnection?.joinConfig.channelId;
+    if (!voiceChannelId) return;
+
+    saveQueueState(this.guildId, {
+      isLofi: this._lofiMode,
+      tracks: [...this.queue.tracks],
+      currentTrack: this.queue.getCurrent(),
+      loopMode: this.queue.loopMode,
+      autoplay: this.queue.autoplay,
+      volume: this._volume,
+      voiceChannelId,
+      textChannelId: this.textChannel?.id ?? null,
+      savedAt: Date.now(),
+    });
+  }
+
+  /** Public: persist state after external queue modifications (remove, shuffle, etc.). */
+  persistQueueState(): void {
+    this._persistQueueState();
+  }
+
   /** Add a track and start playing if idle. */
   async enqueue(track: Track): Promise<'playing' | 'queued'> {
     if (!this.isConnected) throw new Error('Not connected to a voice channel');
@@ -380,6 +417,7 @@ export default class MusicPlayer {
       return 'playing';
     } else {
       this.queue.add(track);
+      this._persistQueueState();
       return 'queued';
     }
   }
@@ -398,6 +436,7 @@ export default class MusicPlayer {
       await this._playTrack(first!);
     } else {
       this.queue.add(tracks);
+      this._persistQueueState();
     }
   }
 
@@ -418,6 +457,7 @@ export default class MusicPlayer {
     this._lofiMode = false;
     this._stopping = true;
     this.audioPlayer.stop(true);
+    clearQueueState(this.guildId);
   }
 
   async skip(): Promise<void> {
@@ -441,7 +481,6 @@ export default class MusicPlayer {
     if (!current) return false;
     this._stopping = true;
     this._stopStream();
-    // Put current back in history for proper tracking
     this.queue.history.push(current);
     await this._playTrack(current, seconds);
     return true;
@@ -482,9 +521,6 @@ export default class MusicPlayer {
     if (enabled) {
       this.queue.clear();
       this._stopStream();
-      // Only suppress the Idle event if actually transitioning from non-idle state.
-      // If already idle, stop(true) won't fire the Idle event, so _stopping would stay
-      // true forever and break all subsequent track-end handling.
       if (!this.isIdle) this._stopping = true;
       this.audioPlayer.stop(true);
       await this._playLofi();
@@ -492,6 +528,7 @@ export default class MusicPlayer {
       this._stopStream();
       if (!this.isIdle) this._stopping = true;
       this.audioPlayer.stop(true);
+      this._persistQueueState();
     }
   }
 

@@ -1,6 +1,6 @@
-import fs from 'fs';
 import path from 'path';
 import config from '../config';
+import { atomicWriteJSON, safeReadJSON } from '../utils/safeFileIO';
 import type { GuildSettings, Language } from '../types';
 
 const DATA_DIR = path.join(__dirname, '..', '..', 'data');
@@ -23,32 +23,39 @@ function makeDefault(): GuildSettings {
 
 class GuildManager {
   private _data: Record<string, GuildSettings> = {};
+  private _writeTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     this._load();
   }
 
   private _load(): void {
+    this._data = safeReadJSON<Record<string, GuildSettings>>(SETTINGS_FILE, {});
+  }
+
+  private _scheduleWrite(): void {
+    // Debounce: coalesce rapid successive writes (e.g. bulk settings updates) into one.
+    if (this._writeTimer) clearTimeout(this._writeTimer);
+    this._writeTimer = setTimeout(() => {
+      this._writeTimer = null;
+      this._flush();
+    }, 300);
+  }
+
+  private _flush(): void {
     try {
-      if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-      if (fs.existsSync(SETTINGS_FILE)) {
-        this._data = JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8')) as Record<
-          string,
-          GuildSettings
-        >;
-      }
+      atomicWriteJSON(SETTINGS_FILE, this._data);
     } catch (err) {
-      console.error('[GuildManager] Failed to load settings, starting fresh:', err);
-      this._data = {};
+      console.error('[GuildManager] Failed to save settings:', err);
     }
   }
 
-  private _write(): void {
-    try {
-      if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-      fs.writeFileSync(SETTINGS_FILE, JSON.stringify(this._data, null, 2));
-    } catch (err) {
-      console.error('[GuildManager] Failed to save settings:', err);
+  /** Flush any pending debounced write immediately (call on process exit). */
+  flushSync(): void {
+    if (this._writeTimer) {
+      clearTimeout(this._writeTimer);
+      this._writeTimer = null;
+      this._flush();
     }
   }
 
@@ -59,7 +66,7 @@ class GuildManager {
 
   set(guildId: string, updates: Partial<GuildSettings>): void {
     this._data[guildId] = { ...this.get(guildId), ...updates };
-    this._write();
+    this._scheduleWrite();
   }
 
   getPrefix(guildId: string): string {

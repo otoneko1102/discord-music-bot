@@ -10,6 +10,7 @@ async function execute(ctx: CommandContext): Promise<void> {
   }
 
   player.queue.clear();
+  player.persistQueueState();
   await ctx.reply({ embeds: [successEmbed(t('clear.cleared'))] });
 }
 

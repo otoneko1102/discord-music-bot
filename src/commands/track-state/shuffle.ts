@@ -11,9 +11,11 @@ async function execute(ctx: CommandContext): Promise<void> {
 
   if (player.queue.isShuffled) {
     player.queue.unshuffle();
+    player.persistQueueState();
     await ctx.reply({ embeds: [successEmbed(t('shuffle.unshuffled'))] });
   } else {
     player.queue.shuffle();
+    player.persistQueueState();
     await ctx.reply({ embeds: [successEmbed(t('shuffle.shuffled'))] });
   }
 }

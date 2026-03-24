@@ -30,6 +30,7 @@ async function execute(ctx: CommandContext): Promise<void> {
     return;
   }
 
+  player.persistQueueState();
   await ctx.reply({ embeds: [successEmbed(t('remove.removed', track.title))] });
 }
 
